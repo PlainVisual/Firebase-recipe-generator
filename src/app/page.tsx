@@ -14,6 +14,7 @@ import { AppLogo } from '@/components/app-logo';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { ThemeToggleButton } from '@/components/theme-toggle-button';
 
 type BaseRecipe = SuggestRecipeOutput['recipes'][0];
 
@@ -40,17 +41,13 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    // This effect synchronizes the selectedRecipe in the dialog with updates from suggestedRecipes list,
-    // particularly after an image has been generated for it.
     if (selectedRecipe && suggestedRecipes) {
       const recipeInList = suggestedRecipes.find(
         r => r.name === selectedRecipe.name && r.ingredients === selectedRecipe.ingredients
       );
 
       if (recipeInList) {
-        // If the image URL in the list is different OR the loading state in the list is different
         if (recipeInList.imageUrl !== selectedRecipe.imageUrl || recipeInList.imageLoading !== selectedRecipe.imageLoading) {
-          // Update selectedRecipe with the latest data from the list
           setSelectedRecipe(recipeInList);
         }
       }
@@ -157,9 +154,12 @@ export default function HomePage() {
       <header className="py-6 px-4 md:px-8 border-b border-border/60 shadow-sm">
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
           <AppLogo />
-          <p className="text-muted-foreground text-center sm:text-right">
-            What culinary masterpiece can we create today?
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-muted-foreground text-center sm:text-right hidden md:block">
+              What culinary masterpiece can we create today?
+            </p>
+            <ThemeToggleButton />
+          </div>
         </div>
       </header>
 
@@ -267,9 +267,8 @@ export default function HomePage() {
                             className="object-cover w-full h-full" 
                             data-ai-hint={recipe.imageUrl ? recipe.name.toLowerCase().split(/\s+/).slice(0, 2).join(' ') : "food gourmet"}
                             onError={(e) => {
-                              // Fallback if generated image fails to load (e.g. malformed data URI)
                               e.currentTarget.src = `https://placehold.co/600x400.png?hash=${index}-${recipe.name}-error`;
-                              e.currentTarget.srcset = ""; // NextJS might add srcset, ensure it's cleared
+                              e.currentTarget.srcset = ""; 
                             }}
                           />
                         )}
@@ -375,4 +374,3 @@ export default function HomePage() {
     </div>
   );
 }
-

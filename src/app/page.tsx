@@ -305,12 +305,12 @@ export default function HomePage() {
           <Dialog open={!!selectedRecipe} onOpenChange={(isOpen) => !isOpen && setSelectedRecipe(null)}>
             <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col rounded-xl overflow-hidden">
               <DialogHeader className="p-6 border-b flex-shrink-0">
-                <DialogTitle className="text-3xl text-primary">{selectedRecipe.name}</DialogTitle>
+                <DialogTitle className="text-xl md:text-3xl text-primary">{selectedRecipe.name}</DialogTitle>
               </DialogHeader>
               
               <div className="px-6 pt-6 flex-shrink-0">
                 {selectedRecipe.imageLoading ? (
-                  <div className="w-full h-[230px] flex items-center justify-center bg-muted rounded-lg">
+                  <div className="w-full h-[180px] flex items-center justify-center bg-muted rounded-lg">
                     <Loader2 className="h-12 w-12 animate-spin text-primary" />
                   </div>
                 ) : selectedRecipe.imageUrl ? (
@@ -320,12 +320,12 @@ export default function HomePage() {
                       alt={selectedRecipe.name}
                       width={600}
                       height={230}
-                      className="object-cover w-full h-[230px]"
+                      className="object-cover w-full h-[180px]"
                        data-ai-hint={selectedRecipe.name.toLowerCase().split(/\s+/).slice(0, 2).join(' ')}
                     />
                   </div>
                 ) : (
-                  <div className="w-full h-[230px] flex items-center justify-center bg-muted rounded-lg">
+                  <div className="w-full h-[180px] flex items-center justify-center bg-muted rounded-lg">
                      <LucideImage className="h-12 w-12 text-foreground/30" />
                   </div>
                 )}

@@ -304,11 +304,11 @@ export default function HomePage() {
         {selectedRecipe && (
           <Dialog open={!!selectedRecipe} onOpenChange={(isOpen) => !isOpen && setSelectedRecipe(null)}>
             <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col rounded-xl overflow-hidden">
-              <DialogHeader className="p-6 border-b">
+              <DialogHeader className="p-6 border-b flex-shrink-0">
                 <DialogTitle className="text-3xl text-primary">{selectedRecipe.name}</DialogTitle>
               </DialogHeader>
               
-              <div className="px-6 pt-6">
+              <div className="px-6 pt-6 flex-shrink-0">
                 {selectedRecipe.imageLoading ? (
                   <div className="w-full h-[230px] flex items-center justify-center bg-muted rounded-lg">
                     <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -331,7 +331,7 @@ export default function HomePage() {
                 )}
               </div>
 
-              <ScrollArea className="flex-grow min-h-0">
+              <ScrollArea className="flex-1 min-h-0">
                 <div className="p-6 space-y-6">
                   <div>
                     <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
@@ -363,7 +363,7 @@ export default function HomePage() {
                   )}
                 </div>
               </ScrollArea>
-              <DialogFooter className="p-6 border-t">
+              <DialogFooter className="p-6 border-t flex-shrink-0">
                 <DialogClose asChild>
                   <Button type="button" variant="outline">Close</Button>
                 </DialogClose>

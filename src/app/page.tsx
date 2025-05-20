@@ -304,7 +304,7 @@ export default function HomePage() {
 
         {selectedRecipe && (
           <Dialog open={!!selectedRecipe} onOpenChange={(isOpen) => !isOpen && setSelectedRecipe(null)}>
-            <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col rounded-xl">
+            <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col rounded-xl overflow-hidden">
               <DialogHeader className="p-6 border-b">
                 <DialogTitle className="text-3xl text-primary">{selectedRecipe.name}</DialogTitle>
               </DialogHeader>

@@ -318,9 +318,9 @@ export default function HomePage() {
                     <Image
                       src={selectedRecipe.imageUrl}
                       alt={selectedRecipe.name}
-                      width={800}
-                      height={450}
-                      className="object-cover w-full h-auto"
+                      width={409}
+                      height={230}
+                      className="object-cover w-full h-[230px]"
                        data-ai-hint={selectedRecipe.name.toLowerCase().split(/\s+/).slice(0, 2).join(' ')}
                     />
                   </div>

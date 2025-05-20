@@ -330,39 +330,42 @@ export default function HomePage() {
                   </div>
                 )}
               </div>
+              
+              <div className="flex-1 min-h-0 relative">
+                <ScrollArea className="absolute inset-0">
+                  <div className="p-6 space-y-6">
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
+                        <ListChecks className="text-accent" /> Ingredients
+                      </h3>
+                      <p className="text-muted-foreground whitespace-pre-line bg-secondary/30 p-3 rounded-md">{selectedRecipe.ingredients}</p>
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
+                        <Utensils className="text-accent" /> Instructions
+                      </h3>
+                      <p className="text-muted-foreground whitespace-pre-line bg-secondary/30 p-3 rounded-md">{selectedRecipe.instructions}</p>
+                    </div>
+                    {selectedRecipe.substitutions && (
+                      <div>
+                        <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
+                          <RefreshCw className="text-accent" /> Substitutions
+                        </h3>
+                        <p className="text-muted-foreground whitespace-pre-line bg-secondary/30 p-3 rounded-md">{selectedRecipe.substitutions}</p>
+                      </div>
+                    )}
+                    {selectedRecipe.sideDishes && (
+                      <div>
+                        <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
+                          <Soup className="text-accent" /> Side Dishes
+                        </h3>
+                        <p className="text-muted-foreground whitespace-pre-line bg-secondary/30 p-3 rounded-md">{selectedRecipe.sideDishes}</p>
+                      </div>
+                    )}
+                  </div>
+                </ScrollArea>
+              </div>
 
-              <ScrollArea className="flex-1 min-h-0">
-                <div className="p-6 space-y-6">
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
-                      <ListChecks className="text-accent" /> Ingredients
-                    </h3>
-                    <p className="text-muted-foreground whitespace-pre-line bg-secondary/30 p-3 rounded-md">{selectedRecipe.ingredients}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
-                      <Utensils className="text-accent" /> Instructions
-                    </h3>
-                    <p className="text-muted-foreground whitespace-pre-line bg-secondary/30 p-3 rounded-md">{selectedRecipe.instructions}</p>
-                  </div>
-                  {selectedRecipe.substitutions && (
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
-                        <RefreshCw className="text-accent" /> Substitutions
-                      </h3>
-                      <p className="text-muted-foreground whitespace-pre-line bg-secondary/30 p-3 rounded-md">{selectedRecipe.substitutions}</p>
-                    </div>
-                  )}
-                  {selectedRecipe.sideDishes && (
-                    <div>
-                      <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
-                        <Soup className="text-accent" /> Side Dishes
-                      </h3>
-                      <p className="text-muted-foreground whitespace-pre-line bg-secondary/30 p-3 rounded-md">{selectedRecipe.sideDishes}</p>
-                    </div>
-                  )}
-                </div>
-              </ScrollArea>
               <DialogFooter className="p-6 border-t flex-shrink-0">
                 <DialogClose asChild>
                   <Button type="button" variant="outline">Close</Button>

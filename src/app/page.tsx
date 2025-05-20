@@ -109,7 +109,7 @@ export default function HomePage() {
               if (!prev) return null;
               const updatedRecipes = [...prev];
               if (updatedRecipes[index]) {
-                updatedRecipes[index] = { ...updatedRecipes[index], imageLoading: false };
+                updatedRecipes[index] = { ...updatedRecipes[index], imageLoading: false }; // Set loading to false even on error
               }
               return updatedRecipes;
             });
@@ -248,7 +248,7 @@ export default function HomePage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {suggestedRecipes.map((recipe, index) => (
-                    <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-xl">
+                    <Card key={`${recipe.name}-${index}`} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-xl">
                       <CardHeader>
                         <CardTitle className="text-xl text-primary">{recipe.name}</CardTitle>
                         <CardDescription className="truncate">Main ingredients: {recipe.ingredients.split(',').slice(0,3).join(', ')}...</CardDescription>
@@ -308,14 +308,12 @@ export default function HomePage() {
                 <DialogTitle className="text-3xl text-primary">{selectedRecipe.name}</DialogTitle>
               </DialogHeader>
               
-              {selectedRecipe.imageLoading ? (
-                <div className="px-6 pt-6">
+              <div className="px-6 pt-6">
+                {selectedRecipe.imageLoading ? (
                   <div className="w-full h-[230px] flex items-center justify-center bg-muted rounded-lg">
                     <Loader2 className="h-12 w-12 animate-spin text-primary" />
                   </div>
-                </div>
-              ) : selectedRecipe.imageUrl ? (
-                <div className="px-6 pt-6">
+                ) : selectedRecipe.imageUrl ? (
                   <div className="rounded-lg overflow-hidden shadow-md">
                     <Image
                       src={selectedRecipe.imageUrl}
@@ -326,10 +324,12 @@ export default function HomePage() {
                        data-ai-hint={selectedRecipe.name.toLowerCase().split(/\s+/).slice(0, 2).join(' ')}
                     />
                   </div>
-                </div>
-              ) : (
-                <div className="pt-6"></div> 
-              )}
+                ) : (
+                  <div className="w-full h-[230px] flex items-center justify-center bg-muted rounded-lg">
+                     <LucideImage className="h-12 w-12 text-foreground/30" />
+                  </div>
+                )}
+              </div>
 
               <ScrollArea className="flex-grow min-h-0">
                 <div className="p-6 space-y-6">
@@ -382,3 +382,4 @@ export default function HomePage() {
     </div>
   );
 }
+

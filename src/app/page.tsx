@@ -331,7 +331,7 @@ export default function HomePage() {
                 )}
               </div>
               
-              <ScrollArea className="flex-1 min-h-0">
+              <ScrollArea className="flex-1 overflow-y-auto">
                 <div className="p-6 space-y-6">
                   <div>
                     <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">

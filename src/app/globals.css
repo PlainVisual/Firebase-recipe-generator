@@ -4,6 +4,54 @@
 
 @layer base {
   :root {
+    --background: 0 0% 100%; /* White */
+    --foreground: 240 10% 3.9%; /* Dark Gray / Almost Black */
+
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 240 10% 3.9%; /* Dark Gray / Almost Black */
+
+    --popover: 0 0% 100%; /* White */
+    --popover-foreground: 240 10% 3.9%; /* Dark Gray / Almost Black */
+
+    --primary: 130 45% 50%; /* Vibrant Green/Teal */
+    --primary-foreground: 0 0% 98%; /* Very Light Gray / White */
+
+    --secondary: 240 4.8% 95.9%; /* Very Light Gray */
+    --secondary-foreground: 240 5.9% 10%; /* Dark Gray */
+
+    --muted: 240 4.8% 95.9%; /* Very Light Gray */
+    --muted-foreground: 240 3.8% 46.1%; /* Medium Gray */
+
+    --accent: 70 60% 55%; /* Pleasant Yellow/Gold */
+    --accent-foreground: 240 5.9% 10%; /* Dark Gray */
+
+    --destructive: 0 72.2% 50.6%; /* Brighter Red */
+    --destructive-foreground: 0 0% 98%; /* Very Light Gray / White */
+
+    --border: 240 5.9% 90%; /* Light Gray */
+    --input: 240 5.9% 90%; /* Light Gray */
+    --ring: 130 40% 55%; /* Primary-based Ring */
+
+    --chart-1: 120 70% 50%;
+    --chart-2: 90 60% 45%;
+    --chart-3: 80 80% 55%;
+    --chart-4: 100 65% 60%;
+    --chart-5: 110 75% 55%;
+
+    --radius: 0.5rem;
+
+    /* Sidebar specific colors - Light Theme */
+    --sidebar-background: 240 4.8% 97%; /* Slightly Off-White */
+    --sidebar-foreground: 240 10% 3.9%;   /* Dark Gray / Almost Black */
+    --sidebar-primary: 70 60% 55%;       /* Accent Color (Yellow/Gold) */
+    --sidebar-primary-foreground: 240 5.9% 10%; /* Dark Gray */
+    --sidebar-accent: 240 4.8% 93%;       /* Lighter Secondary Gray */
+    --sidebar-accent-foreground: 240 5.9% 10%; /* Dark Gray */
+    --sidebar-border: 240 5.9% 85%;       /* Medium-Light Gray */
+    --sidebar-ring: 70 60% 60%;         /* Accent-based Ring */
+  }
+
+  .dark {
     --background: 90 20% 8%;        /* Dark Charcoal/Deep Blue-Gray */
     --foreground: 120 25% 90%;      /* Light Gray/Off-White for text */
 
@@ -37,10 +85,8 @@
     --chart-3: 80 80% 55%;
     --chart-4: 100 65% 60%;
     --chart-5: 110 75% 55%;
-
-    --radius: 0.5rem;
-
-    /* Sidebar specific colors, themed to match */
+    
+    /* Sidebar specific colors - Dark Theme */
     --sidebar-background: 90 20% 10%; /* Darker base for sidebar */
     --sidebar-foreground: 120 25% 90%; /* Light text in sidebar */
     --sidebar-primary: 80 50% 40%;     /* Accent (Muted Olive/Green) */
@@ -49,52 +95,6 @@
     --sidebar-accent-foreground: 120 25% 90%; /* Light text on sidebar accent */
     --sidebar-border: 90 15% 25%;     /* Medium Gray border for sidebar */
     --sidebar-ring: 80 50% 50%;       /* Accent for focus rings in sidebar */
-  }
-
-  .dark {
-    --background: 90 20% 8%;
-    --foreground: 120 25% 90%;
-
-    --card: 90 20% 12%;
-    --card-foreground: 120 25% 90%;
-
-    --popover: 90 20% 12%;
-    --popover-foreground: 120 25% 90%;
-
-    --primary: 120 30% 60%;
-    --primary-foreground: 90 50% 10%;
-
-    --secondary: 90 15% 20%;
-    --secondary-foreground: 120 25% 90%;
-
-    --muted: 90 15% 20%;
-    --muted-foreground: 120 15% 65%;
-
-    --accent: 80 50% 40%;
-    --accent-foreground: 0 0% 98%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 90 15% 25%;
-    --input: 90 15% 25%;
-    --ring: 80 50% 50%;
-
-    --chart-1: 120 70% 50%;
-    --chart-2: 90 60% 45%;
-    --chart-3: 80 80% 55%;
-    --chart-4: 100 65% 60%;
-    --chart-5: 110 75% 55%;
-    
-    /* Sidebar specific colors, themed to match */
-    --sidebar-background: 90 20% 10%;
-    --sidebar-foreground: 120 25% 90%;
-    --sidebar-primary: 80 50% 40%; /* Accent */
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 120 30% 25%; /* Darker primary */
-    --sidebar-accent-foreground: 120 25% 90%;
-    --sidebar-border: 90 15% 25%;
-    --sidebar-ring: 80 50% 50%;
   }
 }
 

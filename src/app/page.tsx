@@ -307,24 +307,32 @@ export default function HomePage() {
               <DialogHeader className="p-6 border-b">
                 <DialogTitle className="text-3xl text-primary">{selectedRecipe.name}</DialogTitle>
               </DialogHeader>
-              <ScrollArea className="flex-grow min-h-0 p-6">
-                {selectedRecipe.imageLoading ? (
-                  <div className="w-full aspect-video flex items-center justify-center bg-muted rounded-lg mb-4">
+              
+              {selectedRecipe.imageLoading ? (
+                <div className="px-6 pt-6">
+                  <div className="w-full h-[230px] flex items-center justify-center bg-muted rounded-lg">
                     <Loader2 className="h-12 w-12 animate-spin text-primary" />
                   </div>
-                ) : selectedRecipe.imageUrl ? (
-                  <div className="mb-4 rounded-lg overflow-hidden shadow-md">
+                </div>
+              ) : selectedRecipe.imageUrl ? (
+                <div className="px-6 pt-6">
+                  <div className="rounded-lg overflow-hidden shadow-md">
                     <Image
                       src={selectedRecipe.imageUrl}
                       alt={selectedRecipe.name}
-                      width={409}
+                      width={600}
                       height={230}
                       className="object-cover w-full h-[230px]"
                        data-ai-hint={selectedRecipe.name.toLowerCase().split(/\s+/).slice(0, 2).join(' ')}
                     />
                   </div>
-                ) : null }
-                <div className="space-y-6">
+                </div>
+              ) : (
+                <div className="pt-6"></div> 
+              )}
+
+              <ScrollArea className="flex-grow min-h-0">
+                <div className="p-6 space-y-6">
                   <div>
                     <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
                       <ListChecks className="text-accent" /> Ingredients

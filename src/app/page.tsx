@@ -308,7 +308,7 @@ export default function HomePage() {
               <DialogHeader className="p-6 border-b">
                 <DialogTitle className="text-3xl text-primary">{selectedRecipe.name}</DialogTitle>
               </DialogHeader>
-              <ScrollArea className="flex-grow p-6">
+              <ScrollArea className="flex-grow min-h-0 p-6">
                 {selectedRecipe.imageLoading ? (
                   <div className="w-full aspect-video flex items-center justify-center bg-muted rounded-lg mb-4">
                     <Loader2 className="h-12 w-12 animate-spin text-primary" />

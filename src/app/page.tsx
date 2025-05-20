@@ -1,26 +1,33 @@
+
 "use client";
 
 import { useState, useEffect, FormEvent } from 'react';
 import { suggestRecipe, type SuggestRecipeOutput } from '@/ai/flows/suggest-recipe';
+import { generateRecipeImage, type GenerateRecipeImageOutput } from '@/ai/flows/generate-recipe-image-flow';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog'; // DialogDescription removed as it's not used
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, RefreshCw, ListChecks, Utensils, Info, Soup, Lightbulb, ChefHat, PackageSearch } from 'lucide-react';
+import { Loader2, RefreshCw, ListChecks, Utensils, Info, Soup, Lightbulb, ChefHat, PackageSearch, Image as LucideImage } from 'lucide-react';
 import { AppLogo } from '@/components/app-logo';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-type Recipe = SuggestRecipeOutput['recipes'][0];
+type BaseRecipe = SuggestRecipeOutput['recipes'][0];
+
+interface DisplayRecipe extends BaseRecipe {
+  imageUrl?: string | null;
+  imageLoading: boolean;
+}
 
 const LOCAL_STORAGE_KEY = 'fridgeFeastIngredients';
 
 export default function HomePage() {
   const [ingredientsInput, setIngredientsInput] = useState<string>('');
-  const [suggestedRecipes, setSuggestedRecipes] = useState<Recipe[] | null>(null);
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [suggestedRecipes, setSuggestedRecipes] = useState<DisplayRecipe[] | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<DisplayRecipe | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
@@ -46,20 +53,60 @@ export default function HomePage() {
 
     setIsLoading(true);
     setError(null);
-    setSuggestedRecipes(null); // Clear previous recipes
+    setSuggestedRecipes(null); 
     localStorage.setItem(LOCAL_STORAGE_KEY, ingredientsInput);
 
     try {
       const output = await suggestRecipe({ ingredients: ingredientsInput });
       if (output.recipes && output.recipes.length > 0) {
-        setSuggestedRecipes(output.recipes);
+        const recipesWithImageState: DisplayRecipe[] = output.recipes.map(r => ({
+          ...r,
+          imageUrl: null,
+          imageLoading: true,
+        }));
+        setSuggestedRecipes(recipesWithImageState);
+        toast({
+          title: "Recipes Generated!",
+          description: "We've cooked up some ideas for you. Images are loading...",
+        });
+
+        recipesWithImageState.forEach(async (recipe, index) => {
+          try {
+            const imageOutput = await generateRecipeImage({ recipeName: recipe.name, ingredients: recipe.ingredients });
+            setSuggestedRecipes(prev => {
+              if (!prev) return null;
+              const updatedRecipes = [...prev];
+              if (updatedRecipes[index]) {
+                updatedRecipes[index] = { ...updatedRecipes[index], imageUrl: imageOutput.imageDataUri, imageLoading: false };
+              }
+              return updatedRecipes;
+            });
+          } catch (imgErr) {
+            console.error(`Failed to generate image for ${recipe.name}:`, imgErr);
+            toast({
+              title: `Image Error: ${recipe.name}`,
+              description: "Could not generate image, using placeholder.",
+              variant: "destructive",
+              duration: 3000,
+            });
+            setSuggestedRecipes(prev => {
+              if (!prev) return null;
+              const updatedRecipes = [...prev];
+              if (updatedRecipes[index]) {
+                updatedRecipes[index] = { ...updatedRecipes[index], imageLoading: false };
+              }
+              return updatedRecipes;
+            });
+          }
+        });
+
       } else {
-        setSuggestedRecipes([]); // Set to empty array to indicate no recipes found
+        setSuggestedRecipes([]);
+        toast({
+          title: "No Recipes Found",
+          description: "Try different ingredients!",
+        });
       }
-       toast({
-        title: "Recipes Generated!",
-        description: "We've cooked up some ideas for you.",
-      });
     } catch (err) {
       console.error(err);
       const errorMessage = err instanceof Error ? err.message : "An unknown error occurred.";
@@ -150,7 +197,10 @@ export default function HomePage() {
                  <CardHeader>
                    <div className="h-6 bg-muted rounded w-3/4"></div>
                  </CardHeader>
-                 <CardContent>
+                  <div className="aspect-video bg-muted flex items-center justify-center">
+                    <LucideImage className="h-12 w-12 text-foreground/30" />
+                  </div>
+                 <CardContent className="pt-4">
                    <div className="h-4 bg-muted rounded w-full mb-2"></div>
                    <div className="h-4 bg-muted rounded w-5/6"></div>
                  </CardContent>
@@ -185,7 +235,25 @@ export default function HomePage() {
                         <CardDescription className="truncate">Main ingredients: {recipe.ingredients.split(',').slice(0,3).join(', ')}...</CardDescription>
                       </CardHeader>
                       <div className="aspect-video bg-muted overflow-hidden">
-                         <Image src={`https://placehold.co/600x400.png?hash=${index}`} alt={recipe.name} width={600} height={400} className="object-cover w-full h-full" data-ai-hint="food gourmet" />
+                        {recipe.imageLoading ? (
+                          <div className="w-full h-full flex items-center justify-center bg-secondary/30">
+                            <Loader2 className="h-10 w-10 animate-spin text-primary" />
+                          </div>
+                        ) : (
+                          <Image 
+                            src={recipe.imageUrl || `https://placehold.co/600x400.png?hash=${index}-${recipe.name}`} 
+                            alt={recipe.name} 
+                            width={600} 
+                            height={400} 
+                            className="object-cover w-full h-full" 
+                            data-ai-hint={recipe.imageUrl ? recipe.name.toLowerCase().split(/\s+/).slice(0, 2).join(' ') : "food gourmet"}
+                            onError={(e) => {
+                              // Fallback if generated image fails to load (e.g. malformed data URI)
+                              e.currentTarget.src = `https://placehold.co/600x400.png?hash=${index}-${recipe.name}-error`;
+                              e.currentTarget.srcset = ""; // NextJS might add srcset, ensure it's cleared
+                            }}
+                          />
+                        )}
                       </div>
                       <CardContent className="flex-grow pt-4">
                         <p className="text-sm text-muted-foreground line-clamp-3">
@@ -222,6 +290,22 @@ export default function HomePage() {
                 <DialogTitle className="text-3xl text-primary">{selectedRecipe.name}</DialogTitle>
               </DialogHeader>
               <ScrollArea className="flex-grow p-6">
+                {selectedRecipe.imageLoading ? (
+                  <div className="w-full aspect-video flex items-center justify-center bg-muted rounded-lg mb-4">
+                    <Loader2 className="h-12 w-12 animate-spin text-primary" />
+                  </div>
+                ) : selectedRecipe.imageUrl && (
+                  <div className="mb-4 rounded-lg overflow-hidden shadow-md">
+                    <Image
+                      src={selectedRecipe.imageUrl}
+                      alt={selectedRecipe.name}
+                      width={800}
+                      height={450}
+                      className="object-cover w-full h-auto"
+                       data-ai-hint={selectedRecipe.name.toLowerCase().split(/\s+/).slice(0, 2).join(' ')}
+                    />
+                  </div>
+                )}
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
@@ -272,3 +356,4 @@ export default function HomePage() {
     </div>
   );
 }
+

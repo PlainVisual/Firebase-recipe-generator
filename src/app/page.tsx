@@ -109,7 +109,7 @@ export default function HomePage() {
               if (!prev) return null;
               const updatedRecipes = [...prev];
               if (updatedRecipes[index]) {
-                updatedRecipes[index] = { ...updatedRecipes[index], imageLoading: false };
+                updatedRecipes[index] = { ...updatedRecipes[index], imageLoading: false }; // Set loading to false even on error
               }
               return updatedRecipes;
             });
@@ -248,7 +248,7 @@ export default function HomePage() {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {suggestedRecipes.map((recipe, index) => (
-                    <Card key={index} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-xl">
+                    <Card key={`${recipe.name}-${index}`} className="flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-xl">
                       <CardHeader>
                         <CardTitle className="text-xl text-primary">{recipe.name}</CardTitle>
                         <CardDescription className="truncate">Main ingredients: {recipe.ingredients.split(',').slice(0,3).join(', ')}...</CardDescription>
@@ -304,27 +304,35 @@ export default function HomePage() {
         {selectedRecipe && (
           <Dialog open={!!selectedRecipe} onOpenChange={(isOpen) => !isOpen && setSelectedRecipe(null)}>
             <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col rounded-xl overflow-hidden">
-              <DialogHeader className="p-6 border-b">
+              <DialogHeader className="p-6 border-b flex-shrink-0">
                 <DialogTitle className="text-3xl text-primary">{selectedRecipe.name}</DialogTitle>
               </DialogHeader>
-              <ScrollArea className="flex-grow min-h-0 p-6">
+              
+              <div className="px-6 pt-6 flex-shrink-0">
                 {selectedRecipe.imageLoading ? (
-                  <div className="w-full aspect-video flex items-center justify-center bg-muted rounded-lg mb-4">
+                  <div className="w-full h-[230px] flex items-center justify-center bg-muted rounded-lg">
                     <Loader2 className="h-12 w-12 animate-spin text-primary" />
                   </div>
                 ) : selectedRecipe.imageUrl ? (
-                  <div className="mb-4 rounded-lg overflow-hidden shadow-md">
+                  <div className="rounded-lg overflow-hidden shadow-md">
                     <Image
                       src={selectedRecipe.imageUrl}
                       alt={selectedRecipe.name}
-                      width={409}
+                      width={600}
                       height={230}
                       className="object-cover w-full h-[230px]"
                        data-ai-hint={selectedRecipe.name.toLowerCase().split(/\s+/).slice(0, 2).join(' ')}
                     />
                   </div>
-                ) : null }
-                <div className="space-y-6">
+                ) : (
+                  <div className="w-full h-[230px] flex items-center justify-center bg-muted rounded-lg">
+                     <LucideImage className="h-12 w-12 text-foreground/30" />
+                  </div>
+                )}
+              </div>
+              
+              <ScrollArea className="flex-1 overflow-y-auto">
+                <div className="p-6 space-y-6">
                   <div>
                     <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">
                       <ListChecks className="text-accent" /> Ingredients
@@ -355,7 +363,8 @@ export default function HomePage() {
                   )}
                 </div>
               </ScrollArea>
-              <DialogFooter className="p-6 border-t">
+
+              <DialogFooter className="p-6 border-t flex-shrink-0">
                 <DialogClose asChild>
                   <Button type="button" variant="outline">Close</Button>
                 </DialogClose>
@@ -374,3 +383,4 @@ export default function HomePage() {
     </div>
   );
 }
+

@@ -7,7 +7,7 @@ import { generateRecipeImage, type GenerateRecipeImageOutput } from '@/ai/flows/
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogFooter } from '@/components/ui/dialog'; // DialogDescription removed as it's not used
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogFooter } from '@/components/ui/dialog';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, RefreshCw, ListChecks, Utensils, Info, Soup, Lightbulb, ChefHat, PackageSearch, Image as LucideImage } from 'lucide-react';
 import { AppLogo } from '@/components/app-logo';
@@ -38,6 +38,25 @@ export default function HomePage() {
       setIngredientsInput(storedIngredients);
     }
   }, []);
+
+  useEffect(() => {
+    // This effect synchronizes the selectedRecipe in the dialog with updates from suggestedRecipes list,
+    // particularly after an image has been generated for it.
+    if (selectedRecipe && suggestedRecipes) {
+      const recipeInList = suggestedRecipes.find(
+        r => r.name === selectedRecipe.name && r.ingredients === selectedRecipe.ingredients
+      );
+
+      if (recipeInList) {
+        // If the image URL in the list is different OR the loading state in the list is different
+        if (recipeInList.imageUrl !== selectedRecipe.imageUrl || recipeInList.imageLoading !== selectedRecipe.imageLoading) {
+          // Update selectedRecipe with the latest data from the list
+          setSelectedRecipe(recipeInList);
+        }
+      }
+    }
+  }, [suggestedRecipes, selectedRecipe]);
+
 
   const handleSuggestRecipes = async (e?: FormEvent) => {
     if (e) e.preventDefault();
@@ -294,7 +313,7 @@ export default function HomePage() {
                   <div className="w-full aspect-video flex items-center justify-center bg-muted rounded-lg mb-4">
                     <Loader2 className="h-12 w-12 animate-spin text-primary" />
                   </div>
-                ) : selectedRecipe.imageUrl && (
+                ) : selectedRecipe.imageUrl ? (
                   <div className="mb-4 rounded-lg overflow-hidden shadow-md">
                     <Image
                       src={selectedRecipe.imageUrl}
@@ -305,7 +324,7 @@ export default function HomePage() {
                        data-ai-hint={selectedRecipe.name.toLowerCase().split(/\s+/).slice(0, 2).join(' ')}
                     />
                   </div>
-                )}
+                ) : null }
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-xl font-semibold mb-2 flex items-center gap-2 text-foreground">

@@ -7,7 +7,7 @@ import { generateRecipeImage, type GenerateRecipeImageOutput } from '@/ai/flows/
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog'; // DialogDescription removed as it's not used
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogFooter } from '@/components/ui/dialog'; // DialogDescription removed as it's not used
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, RefreshCw, ListChecks, Utensils, Info, Soup, Lightbulb, ChefHat, PackageSearch, Image as LucideImage } from 'lucide-react';
 import { AppLogo } from '@/components/app-logo';

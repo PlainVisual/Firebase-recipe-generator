@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --background: 120 33% 90.6%; /* #E0EEE0 Light Green */
-    --foreground: 85 30% 25%;    /* Dark Olive for text */
+    --background: 90 20% 8%;        /* Dark Charcoal/Deep Blue-Gray */
+    --foreground: 120 25% 90%;      /* Light Gray/Off-White for text */
 
-    --card: 120 30% 97%;          /* Very light green, almost white */
-    --card-foreground: 85 30% 25%; /* Dark Olive for text on cards */
+    --card: 90 20% 12%;             /* Slightly Lighter Charcoal for cards */
+    --card-foreground: 120 25% 90%; /* Light Gray/Off-White for text on cards */
 
-    --popover: 120 30% 97%;
-    --popover-foreground: 85 30% 25%;
+    --popover: 90 20% 12%;
+    --popover-foreground: 120 25% 90%;
 
-    --primary: 120 25% 65%;       /* #8FBC8F Fresh Green */
-    --primary-foreground: 0 0% 100%; /* White text on Fresh Green */
+    --primary: 120 30% 60%;         /* Muted Teal/Blue */
+    --primary-foreground: 90 50% 10%;/* Dark text on primary */
 
-    --secondary: 120 30% 85%;     /* Lighter green for secondary elements */
-    --secondary-foreground: 85 40% 20%; /* Darker green text on secondary */
+    --secondary: 90 15% 20%;       /* Darker Gray for secondary elements */
+    --secondary-foreground: 120 25% 90%; /* Light text on secondary */
 
-    --muted: 120 20% 88%;         /* Very light, desaturated green for muted backgrounds */
-    --muted-foreground: 85 20% 45%; /* Muted text color */
+    --muted: 90 15% 20%;           /* Dark Gray for muted backgrounds */
+    --muted-foreground: 120 15% 65%;  /* Lighter Gray for muted text */
 
-    --accent: 80 60% 35%;         /* #6B8E23 Olive Green */
-    --accent-foreground: 0 0% 100%;   /* White text on Olive Green */
+    --accent: 80 50% 40%;           /* Muted Olive/Green accent */
+    --accent-foreground: 0 0% 98%;     /* Very Light text on accent */
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 63% 31%;        /* Dark Red for destructive actions */
+    --destructive-foreground: 0 0% 98%; /* Light text on destructive */
 
-    --border: 120 20% 80%;
-    --input: 120 25% 92%;         /* Slightly lighter than background for inputs */
-    --ring: 80 60% 45%;           /* Accent for focus rings */
+    --border: 90 15% 25%;           /* Medium Gray border */
+    --input: 90 15% 25%;            /* Medium Gray for inputs */
+    --ring: 80 50% 50%;             /* Accent for focus rings (brighter olive/green) */
 
     --chart-1: 120 70% 50%;
     --chart-2: 90 60% 45%;
@@ -41,14 +41,14 @@
     --radius: 0.5rem;
 
     /* Sidebar specific colors, themed to match */
-    --sidebar-background: 120 30% 95%;
-    --sidebar-foreground: 85 30% 25%;
-    --sidebar-primary: 80 60% 35%; /* Accent */
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 120 25% 88%; /* Lighter primary */
-    --sidebar-accent-foreground: 85 40% 20%;
-    --sidebar-border: 120 20% 80%;
-    --sidebar-ring: 80 60% 45%;
+    --sidebar-background: 90 20% 10%; /* Darker base for sidebar */
+    --sidebar-foreground: 120 25% 90%; /* Light text in sidebar */
+    --sidebar-primary: 80 50% 40%;     /* Accent (Muted Olive/Green) */
+    --sidebar-primary-foreground: 0 0% 98%; /* Very Light text on sidebar primary */
+    --sidebar-accent: 120 30% 25%;     /* Darker primary/accent for sidebar */
+    --sidebar-accent-foreground: 120 25% 90%; /* Light text on sidebar accent */
+    --sidebar-border: 90 15% 25%;     /* Medium Gray border for sidebar */
+    --sidebar-ring: 80 50% 50%;       /* Accent for focus rings in sidebar */
   }
 
   .dark {
